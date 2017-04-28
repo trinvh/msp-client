@@ -1,0 +1,89 @@
+<div class="page-layout carded fullwidth single-scroll">
+	<div class="top-bg md-accent-bg"></div>
+	<div class="center" flex>
+		<div class="header" layout="row" layout-align="start center">
+			<button class="md-icon-button white-fg pr-25" ui-sref="app.inventory.history">
+				<md-icon>arrow_back</md-icon>
+			</button>
+			<span class="h2 white-fg">Tạo phiếu cân bằng kho</span>
+		</div>
+		<div class="content-card">
+			<div class="toolbar" layout="row" layout-align="start center">
+				<span>Khi số lượng thực tế bị thay đổi, mặt hàng sẽ được đánh dấu để tiện việc thao tác</span>
+			</div>
+			<div layout="column" layout-gt-xs="row">
+				<div layout-gt-sm="column" flex="65" style="border-right: #EEE 1px solid;">
+					<md-tabs md-dynamic-height md-border-bottom>
+						<md-tab label="Sản phẩm">
+							<md-content>
+								<md-list>
+									<md-list-item ng-repeat="item in vm.products">
+										<md-checkbox ng-checked="item.inventory !== item.oldInventory" class="md-warn" hide-xs></md-checkbox>
+										<p>{{item.name}}</p>
+										<md-input-container class="md-secondary">
+											<input type="number" ng-value="item.oldInventory" aria-label="Số lượng" placeholder="Trong kho" disabled>
+										</md-input-container>
+										<md-input-container class="md-secondary">
+											<input type="number" ng-model="item.inventory" aria-label="Số lượng" placeholder="Thực tế">
+										</md-input-container>
+										<md-input-container class="md-secondary">
+											<input type="number" ng-value="item.inventory - item.oldInventory" aria-label="Số lượng" placeholder="Chênh lệch" readonly>
+										</md-input-container>
+									</md-list-item>
+								</md-list>
+							</md-content>
+						</md-tab>
+						<md-tab label="Nguyên liệu">
+							<md-content>
+								<md-list>
+									<md-list-item ng-repeat="item in vm.materials">
+										<md-checkbox ng-checked="item.inventory !== item.oldInventory" class="md-warn"></md-checkbox>
+										<p>{{item.name}}</p>
+										<md-input-container class="md-secondary">
+											<input type="number" ng-value="item.oldInventory" aria-label="Số lượng" placeholder="Trong kho" disabled>
+										</md-input-container>
+										<md-input-container class="md-secondary">
+											<input type="number" ng-model="item.inventory" aria-label="Số lượng" placeholder="Thực tế" md-select-on-focus>
+										</md-input-container>
+										<md-input-container class="md-secondary">
+											<input type="number" ng-value="item.inventory - item.oldInventory" aria-label="Số lượng" placeholder="Chênh lệch" readonly>
+										</md-input-container>
+									</md-list-item>
+								</md-list>
+							</md-content>
+						</md-tab>
+					</md-tabs>
+				</div>
+				<div layout-gt-sm="column" flex="35">
+					<md-tabs md-dynamic-height>
+						<md-tab label="Thông tin thêm">
+							<md-content>
+								<form name="inputs" ng-submit="inputs.$valid && vm.submit()" novalidate>
+									<md-input-container class="md-block">
+										<label>Tổng số mặt hàng</label>
+										<input ng-value="vm.getTotalChanged()" disabled>
+									</md-input-container>
+									<md-input-container class="md-block">
+										<label>Giá trị ước tính</label>
+										<input ng-value="vm.getTotalAmount()" disabled>
+									</md-input-container>
+									<md-input-container class="md-block">
+										<label>Ghi chú</label>
+										<textarea name="note" ng-model="vm.note" rows="3" required md-select-on-focus></textarea>
+										<div ng-messages="inputs.note.$error">
+											<div ng-message="required">Vui lòng nhập ghi chú</div>
+										</div>
+									</md-input-container>
+									<div>
+										<md-button class="md-accent md-raised" type="submit">Lưu vào kho</md-button>
+										<md-button ng-click="vm.reset()">Reset</md-button>
+									</div>
+								</form>
+							</md-content>
+						</md-tab>
+					</md-tabs>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,58 @@
+<div id="sell-app" ng-show="vm.HubData" class="page-layout" layout="column" layout-gt-sm="row" >
+	<div class="general" layout="row" flex>
+		<md-sidenav class="md-sidenav-left sn-category" md-component-id="sn-categories" 
+			md-is-locked-open="vm.isToggleCategory" 
+			md-whiteframe="1"
+			md-disable-backdrop>
+			<md-content flex layout="column" class="">
+				<md-checkbox flex="nogrow" ng-click="vm.resetFilter()" ng-checked="!vm.currentCategory" aria-label="All Categories">Tất cả</md-checkbox>
+				<ul flex class="scrollable" flex ms-scroll>
+					<li ng-repeat="item in vm.Categories" ng-class="{active: item === vm.currentCategory}" ng-click="vm.selectCategory(item)"
+						flex md-truncate md-ink-ripple="#000000">{{item.Name}}</li>
+				</ul>
+			</md-content>
+			</md-sidenav>
+			<md-content class="sn-content" flex layout="column">
+				<div class="header" flex="nogrow" layout="row" md-whiteframe="1">
+					<div flex="nogrow">
+						<md-button class="md-icon-button bt-menu" ng-click="vm.toggleCategoryMenu()">
+							<md-icon>menu</md-icon>
+						</md-button>
+					</div>
+					<div class="slinput" flex layout="row">
+						<md-icon>search</md-icon>
+						<input ng-change="vm.searchProducts()" ng-model="vm.searchText" ng-model-options="{debounce: 500}" placeholder="Tìm món ăn. Vd: Bò húc gõ 'bo huc' hoặc 'bh'"
+						/>
+						<md-icon class="md-warn" ng-show="vm.searchText.length">close</md-icon>
+					</div>
+				</div>
+				<ul flex ng-show="vm.Products.length" class="scrollable grid-products" layout-align="start start" flex ms-scroll>
+					<li ng-repeat="item in vm.Products" class="product" md-ink-ripple="#039BE5" ng-click="vm.addProduct(item)">
+						<div class="price">
+							<span>{{ item.Price | number }}</span>
+							<span ng-if="item.CoffeePrice !== item.Price && item.CoffeePrice !== 0"> - {{ item.CoffeePrice | number }}</span>
+						</div>
+						<div class="thumbnail" ng-style="{'background-image': 'url(' + vm.getImage(item) + ')'}"></div>
+						<div class="name" layout="column" layout-align="center stretch"><span>{{ item.Name }}</span></div>
+					</li>
+					<li class="product invisible-item"></li>
+					<li class="product invisible-item"></li>
+					<li class="product invisible-item"></li>
+					<li class="product invisible-item"></li>
+					<li class="product invisible-item"></li>
+					<li class="product invisible-item"></li>
+					<li class="product invisible-item"></li>
+					<li class="product invisible-item"></li>
+					<li class="product invisible-item"></li>
+					<li class="product invisible-item"></li>
+					<li class="product invisible-item"></li>					
+				</ul>
+				<div flex class="deep-note" ng-show="!vm.Products.length">Không có mặt hàng nào để bán</div>
+				
+			</md-content>
+	</div>
+	<md-content id="sale-sidebar" class="detail" layout="column" flex="nogrow" ui-view="right" resizable r-directions="['left']" r-flex="true"></md-content>
+</div>
+<div flex layout="row" layout-align="center center" ng-show="!vm.HubData" style="height: 100%">
+	<div><md-progress-circular md-mode="indeterminate"></md-progress-circular></div>
+</div>

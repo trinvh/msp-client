@@ -1,0 +1,24 @@
+<md-dialog aria-label="Inventory Detail">
+	<form name="inputs" ng-submit="inputs.$valid && vm.submit()" novalidate>
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h4>Thiết lập bán hàng</h4>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="vm.close()">
+					<md-icon aria-label="Close dialog">close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<md-input-container class="md-block no-margin">
+				<md-checkbox name="tos" ng-model="project.tos">
+					Luôn thanh toán ngay khi gửi bếp
+				</md-checkbox>
+			</md-input-container>
+		</md-dialog-content>
+		<md-dialog-actions layout="row" layout-align="end center">
+			<md-button type="submit" class="md-warn">Lưu cấu hình</md-button>
+			<md-button ng-click="vm.close()">Đóng</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

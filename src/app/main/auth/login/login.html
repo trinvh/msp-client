@@ -1,0 +1,60 @@
+<div id="login-v2" layout="row" layout-align="start">
+    <div id="login-v2-intro" flex hide show-gt-sm>
+        <div class="logo md-accent-bg">
+            <span>M</span>
+        </div>
+        <div class="title" translate="LOGIN.INTRO_TITLE">
+            Welcome to the misapay!
+        </div>
+        <div class="description" translate="LOGIN.INTRO_DESCRIPTION">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper nisl erat, vel convallis elit fermentum pellentesque.
+            Sed mollis velit facilisis facilisis viverra.
+        </div>
+    </div>
+
+    <div id="login-v2-form-wrapper" class="flex-scrollable md-whiteframe-8dp" ms-scroll>
+        <div id="login-v2-form">
+            <div class="logo md-accent-bg" hide-gt-sm>
+                <span>M</span>
+            </div>
+
+            <div class="title" translate="LOGIN.TITLE">Log in to your account</div>
+            <div class="description" translate="LOGIN.DESCRIPTION">Sed mollis velit facilisis facilisis viverra</div>
+            <form name="loginForm" novalidate ng-submit="vm.login()">
+                <md-input-container class="md-block" md-no-float>
+                    <input type="text" name="username" ng-model="vm.form.username" placeholder="Username" translate translate-attr-placeholder="LOGIN.USERNAME"
+                        autofocus required>
+                        <div ng-messages="loginForm.username.$error" role="alert">
+                            <div ng-message="required">
+                                <span translate="LOGIN.ERRORS.USERNAME_REQUIRED">Username field is required</span>
+                            </div>
+                        </div>
+                </md-input-container>
+
+                <md-input-container class="md-block" md-no-float>
+                    <input type="password" name="password" ng-model="vm.form.password" placeholder="Password" translate translate-attr-placeholder="LOGIN.PASSWORD"
+                        required>
+                        <div ng-messages="loginForm.password.$error" role="alert">
+                            <div ng-message="required">
+                                <span translate="LOGIN.ERRORS.PASSWORD_REQUIRED">Password field is required</span>
+                            </div>
+                        </div>
+                </md-input-container>
+
+                <div class="remember-forgot-password" layout="row" layout-xs="column" layout-align="space-between center">
+                    <md-checkbox class="remember-me" ng-model="vm.form.remember" aria-label="Remember Me">
+                        <span translate="LOGIN.REMEMBER_ME">Remember Me</span>
+                    </md-checkbox>
+                </div>
+                <div class="p-8 mh-5" layout-align="center center">
+                    <md-progress-circular id="toolbar-progress" ng-disabled="!vm.isLoading" class="md-accent" md-diameter="32">
+                    </md-progress-circular>
+                </div>
+                <md-button type="submit" class="md-raised md-accent submit-button" aria-label="LOG IN" ng-disabled="loginForm.$invalid || loginForm.$pristine"
+                    translate="LOGIN.LOG_IN" translate-attr-aria-label="LOGIN.LOG_IN">
+                    LOG IN
+                    </md-button>
+            </form>
+        </div>
+    </div>
+</div>

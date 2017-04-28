@@ -1,0 +1,62 @@
+<md-card>
+	<md-toolbar class="md-table-toolbar md-default">
+		<div class="md-toolbar-tools" ng-hide="vm.filter.show">
+			<h2 class="md-title">Danh sách máy tính</h2>
+			<div flex></div>
+			<md-button class="md-icon-button" ng-click="vm.filter.show = true">
+				<md-icon>search</md-icon>
+			</md-button>
+		</div>
+		<div class="md-toolbar-tools" ng-show="vm.filter.show">
+			<md-icon>search</md-icon>
+			<form flex name="vm.filter.form">
+				<input type="text" ng-model="vm.filter.query.keyword" ng-model-options="vm.filter.options" placeholder="Search" md-autofocus>
+			</form>
+			<md-button class="md-icon-button" ng-click="vm.filter.remove()">
+				<md-icon>close</md-icon>
+			</md-button>
+		</div>
+	</md-toolbar>
+	<md-table-container>
+		<table md-table md-row-select multiple ng-model="vm.selectedRows" md-progress="vm.promise">
+			<thead md-head md-order="vm.filter.query.order" md-on-reorder="vm.getPromise">
+				<tr md-row>
+					<th md-column md-order-by="id"><span>ID</span></th>
+					<th md-column md-order-by="name"><span>Tên máy</span></th>
+					<th md-column md-order-by="mainboard">Mainboard</th>
+					<th md-column md-order-by="cpu">CPU</th>
+					<th md-column md-order-by="gpu">GPU</th>
+					<th md-column md-numeric md-order-by="ram">Ram</th>
+					<th md-column md-numeric md-order-by="lan">Card mạng</th>
+					<th md-column md-order-by="room.name">Phòng</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody md-body>
+				<tr md-row md-select="item" md-select-id="id" ng-repeat="item in vm.items">
+					<td md-cell>{{item.id}}</td>
+					<td md-cell>{{item.name}}</td>
+					<td md-cell>{{item.mainboard}}</td>
+					<td md-cell>{{item.cpu}}</td>
+					<td md-cell>{{item.gpu}}</td>
+					<td md-cell>{{item.ram | number}}</td>
+					<td md-cell>{{item.lan | number}}</td>
+					<td md-cell>
+						<md-select ng-model="item.roomId" ng-change="vm.updateRoom(item)" placeholder="Chọn phòng">
+							<md-option ng-value="room.id" ng-repeat="room in vm.Rooms">{{room.name}}</md-option>
+						</md-select>
+					</td>
+					<td md-cell>
+						<md-button class="md-icon-button md-warn" ng-click="vm.destroy(item)"><md-icon>delete</md-icon></md-button>
+					</td>
+				</tr>
+				<tr md-row ng-show="!vm.items.length">
+					<td md-cell colspan="10" class="md-warn md-hue-1">Không có dữ liệu, vui lòng tạo mới</td>
+				</tr>
+			</tbody>
+		</table>
+	</md-table-container>
+
+	<md-table-pagination md-limit="vm.filter.query.limit" md-limit-options="[5, 10, 20, 50, 100]" md-page="vm.filter.query.page" md-total="{{vm.itemsCount}}"
+		md-on-paginate="vm.getPromise" md-page-select></md-table-pagination>
+</md-card>

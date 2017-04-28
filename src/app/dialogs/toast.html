@@ -1,0 +1,10 @@
+<md-toast>
+	<div flex>
+		<h4>{{vm.data.message}}</h4>
+		<ul ng-if="vm.data.errors && vm.data.errors.length">
+			<li ng-repeat="error in vm.data.errors track by $index">{{error}}</li>
+		</ul>
+	</div>
+	<div flex="nogrow" layout="row" layout-align="end start"><md-button ng-click="vm.hide()">Đóng</md-button>
+	</div>
+</md-toast>

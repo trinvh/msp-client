@@ -1,0 +1,29 @@
+<md-dialog aria-label="Inventory Detail">
+	<form name="inputs" ng-submit="inputs.$valid && vm.submit()" novalidate>
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h4>Cấu hình MYSQL</h4>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<md-input-container class="md-block">
+				<label>Máy chủ MYSQL</label>
+				<input name="host" ng-model="vm.mysql.host" placeholder="127.0.0.1" required>
+				<div ng-messages="inputs.host.$error">
+					<div ng-message="required">Vui lòng nhập địa chỉ máy chủ</div>
+				</div>
+			</md-input-container>
+			<md-input-container class="md-block">
+				<label>Mật khẩu MYSQL</label>
+				<input name="password" ng-model="vm.mysql.password" required>
+				<div ng-messages="inputs.password.$error">
+					<div ng-message="required">Vui lòng nhập mật khẩu mysql</div>
+				</div>
+			</md-input-container>
+		</md-dialog-content>
+		<md-dialog-actions layout="row" layout-align="end center">
+			<md-button type="submit" class="md-warn">Lưu cấu hình</md-button>
+			<md-button ng-click="vm.close()">Đóng</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

@@ -1,0 +1,111 @@
+<form name="inputs" ng-submit="inputs.$valid && vm.submit()" novalidate>
+	<md-tabs md-dynamic-height md-border-bottom>
+		<md-tab>
+			<md-tab-label>Chi tiết sản phẩm</md-tab-label>
+			<md-tab-body>
+				<div layout="column" layout-gt-xs="row">
+					<div layout-gt-sm="column" flex class="margin-right-30">
+						<md-input-container class="md-block" flex-gt-sm>
+							<label>Tên sản phẩm</label>
+							<input name="name" ng-model="vm.form.name" required>
+							<div ng-messages="inputs.name.$error">
+								<div ng-message="required">Vui lòng nhập tên sản phẩm</div>
+							</div>
+						</md-input-container>
+						<md-input-container class="md-block">
+							<div layout="row" flex-gt-sm flow-init="{singleFile:true}" flow-name="vm.flow" flow-file-added="vm.imageChange($file, $event, $flow)">
+								<div class="product-thumbnail">
+									<img ng-src="{{ vm.getImage(vm.form.image) }}" ng-show="vm.form.image && !$flow.files.length" />
+									<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" ng-show="!$flow.files.length && !vm.form.image" />
+									
+									<img flow-img="$flow.files[0]" ng-show="$flow.files.length" />
+								</div>
+								<div>
+									<md-button class="md-accent md-primary" ng-show="!$flow.files.length" flow-btn>Chọn ảnh</md-button>
+									<md-button class="md-accent md-primary" ng-show="$flow.files.length" flow-btn>Đổi ảnh khác</md-button>
+									<md-button class="mad-accent md-warn" ng-show="$flow.files.length" ng-click="$flow.cancel()">Xóa</md-button>
+								</div>
+							</div>
+						</md-input-container>
+						<div layout-gt-sm="row">
+							<md-input-container class="md-block" flex-gt-sm>
+								<label>Giá bán (Mặc định)</label>
+								<input type="number" min="0" name="price" ng-model="vm.form.price" required>
+								<div ng-messages="inputs.price.$error">
+									<div ng-message="required">Vui lòng nhập giá bán</div>
+									<div ng-message="min">Giá không thể là số âm</div>
+								</div>
+							</md-input-container>
+							<md-input-container class="md-block" flex-gt-sm>
+								<label>Giá bán (Cà phê)</label>
+								<input type="number" min="0" name="coffeePrice" ng-model="vm.form.coffeePrice" required>
+								<div ng-messages="inputs.coffeePrice.$error">
+									<div ng-message="required">Vui lòng nhập giá bán cho cà phê</div>
+									<div ng-message="min">Giá không thể là số âm</div>
+								</div>
+							</md-input-container>
+						</div>
+						<md-input-container class="md-block">
+							<md-switch class="md-primary" name="isActive" ng-model="vm.form.isActive">
+								Hiển thị trên client
+							</md-switch>
+						</md-input-container>
+					</div>
+					<div layout-gt-sm="column" flex>
+						<md-input-container>
+							<label>Nhóm sản phẩm (1 hoặc nhiều)</label>
+							<md-select ng-model="vm.form.productCategories" ng-model-options="{trackBy: '$value.categoryId'}" md-on-close="vm.searchCategoryTerm = ''"
+								multiple>
+								<md-select-header>
+									<input ng-model="vm.searchCategoryTerm" type="search" placeholder="Tìm nhanh nhóm sản phẩm" ng-keydown='$event.stopPropagation($event)'>
+								</md-select-header>
+								<md-option ng-value="category" ng-repeat="category in vm.categories | filter: vm.searchCategoryTerm">{{category.name}}</md-option>
+								</md-select>
+						</md-input-container>
+						<md-input-container>
+							<label>Máy in mặc định</label>
+							<md-select ng-model="vm.form.printerId">
+								<md-option ng-value="printer.id" ng-repeat="printer in vm.printers">{{printer.name}}</md-option>
+							</md-select>
+						</md-input-container>
+						<md-input-container class="md-block">
+							<md-checkbox class="md-primary" name="allowInventory" ng-model="vm.form.allowInventory">
+								Theo dõi hàng tồn
+							</md-checkbox>
+						</md-input-container>
+						<md-input-container class="md-block" flex-gt-sm>
+							<label>Số lượng trong kho</label>
+							<input type="number" min="0" name="inventory" ng-model="vm.form.inventory" required>
+							<div ng-messages="inputs.inventory.$error">
+								<div ng-message="required">Vui lòng nhập số lượng hàng tồn</div>
+								<div ng-message="min">Số lượng phải lớn hơn hoặc bằng 0</div>
+							</div>
+						</md-input-container>
+					</div>
+				</div>
+			</md-tab-body>
+		</md-tab>
+		<md-tab>
+			<md-tab-label>Nguyên liệu</md-tab-label>
+			<md-tab-body>
+				<md-button class="md-warn" ui-sref="app.material.create" ng-show="!vm.form.productMaterials.length">Bạn chưa tạo nguyên liệu, tạo ngay</md-button>
+				<md-list class="md-block" ng-show="vm.form.productMaterials.length">
+					<div layout="row" layout-xs="column" layout-wrap>
+						<md-list-item flex="50" flex-xs="100" ng-repeat="material in vm.form.productMaterials">
+							<md-checkbox ng-checked="material.quantity > 0" class="md-warn"></md-checkbox>
+							<p md-truncate>{{ material.name }}</p>
+							<md-input-container class="md-secondary">
+								<input type="number" min="0" ng-model="material.quantity" aria-label="Số lượng" placeholder="Số lượng">
+							</md-input-container>
+						</md-list-item>
+					</div>
+				</md-list>
+			</md-tab-body>
+		</md-tab>
+	</md-tabs>
+
+	<div class="p-15">
+		<md-button class="md-primary md-raised" type="submit">Submit</md-button>
+		<md-button ui-sref="app.product">Quay lại danh sách</md-button>
+	</div>
+</form>

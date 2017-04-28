@@ -1,0 +1,117 @@
+/**
+ *  Do not remove this comments bellow. It's the markers used by wiredep to inject
+ *  sass dependencies when defined in the bower.json of your dependencies
+ */
+
+// bower:scss
+// endbower
+
+/**
+ *  Do not remove this comments bellow. It's the markers used by gulp-inject to inject
+ *  all your sass files automatically
+ */
+
+// injector
+// endinjector
+ .input-no-margin {
+     md-input-container {
+         margin: 0 10px 0 0;
+     }
+ }
+.username {
+    text-transform: uppercase;
+}
+
+.deep-note {
+    font-weight: 600;
+    font-size: 20px;
+    color: #DDD;
+    text-align: center;
+    padding-top: 40px;
+}
+
+.dtp-content {
+    padding: 0 !important;
+}
+
+ms-widget .secondary-text:first-letter {
+    text-transform: uppercase;
+}
+
+md-toast.md-center {
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+}
+
+md-toolbar.md-table-toolbar {
+    form>input {
+        width: 100%;
+        margin: 0;
+        border: none;
+        color: rgba(0, 0, 0, 0.87);
+    }
+    md-select {
+        font-size: 13px;
+        .md-text {
+            font-size: 13px;
+        }
+    }
+}
+
+.carded {
+    md-tabs-wrapper {
+        background: #FFF;
+        padding: 0 24px;
+    }
+    md-tabs-content-wrapper {
+        padding: 24px;
+        .md-secondary-container md-input-container {
+            margin-bottom: 0;
+            .md-input {
+                width: 80px;
+            }
+            .md-errors-spacer {
+                display: none;
+            }
+        }
+    }
+}
+
+.product-thumbnail {
+    img {
+        border: #DDD 1px solid;
+        padding: 3px;
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+    }
+}
+
+.md-cell .product-thumbnail img {
+    width: 50px;
+    height: 50px;
+    margin: 5px auto;
+}
+
+.wallpaper-card {
+    overflow: hidden;
+    img {
+        height: 200px;
+        object-fit: cover;
+    }
+}
+
+[flash-change] {
+    transition: all 1s;
+    -webkit-transition: all 1s;
+    &.change-up {
+        color: red !important;
+        transition: none;
+        -webkit-transition: none;
+    }
+    &.change-down {
+        color: green !important;
+        transition: none;
+        -webkit-transition: none;
+    }
+}

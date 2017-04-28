@@ -1,0 +1,48 @@
+#report.page-layout.simple.tabbed {
+    tbody.md-body .md-row.bg-gray {
+        > td {
+            font-weight: 600;
+        }
+        > td:first-child {
+            border-right: #EEE 1px solid;
+        }
+        > td:nth-child(2) {
+            padding: 0 24px;
+        }
+        > td:not(:first-child) {
+            background: #EEE;
+        }
+    }
+    .header {
+        padding: 5px 10px 50px 10px;
+        height: auto;
+        min-height: auto;
+    }
+    .bottom {
+        margin: 8px;
+        margin-top: -30px;
+        .input-boxes,
+        .date-filter-box {
+            background-color: white;
+            padding-left: 16px;
+            margin-left: 8px;
+            .row {
+                height: 70px;
+            }
+            md-select {
+                padding: 0 18px;
+                text-transform: uppercase;
+            }
+            md-input-container {
+                margin-left: 10px;
+                margin-right: 0;
+                input {
+                    font-size: 16px;
+                }
+            }
+            .md-errors-spacer {
+                display: none;
+            }
+        }
+    }
+}

@@ -1,0 +1,33 @@
+<form name="inputs" ng-submit="inputs.$valid && vm.submit()" novalidate>
+	<div layout-gt-sm="column">
+		<md-input-container class="md-block" flex-gt-sm>
+			<label>Định danh (alias)</label>
+			<input name="name" ng-model="vm.form.name" required>
+			<div ng-messages="inputs.name.$error">
+				<div ng-message="required">Vui lòng nhập tên gợi nhớ</div>
+			</div>
+		</md-input-container>
+		<md-input-container class="md-block" flex-gt-sm>
+			<label>Chọn máy in</label>
+			<md-select name="printerName" ng-model="vm.form.printerName" placeholder="Chọn máy in" required>
+				<md-option ng-value="printer" ng-repeat="printer in vm.Printers">{{printer}}</md-option>
+			</md-select>
+			<div ng-messages="inputs.printerName.$error">
+				<div ng-message="required">Bạn chưa chọn máy in</div>
+			</div>
+		</md-input-container>
+		<md-input-container class="md-block" flex-gt-sm>
+			<md-radio-group ng-model="vm.form.paperSize" name="paperSize" required>
+				<md-radio-button value="80"> 80mm</md-radio-button>
+				<md-radio-button value="60"> 60mm</md-radio-button>
+			</md-radio-group>
+			<div ng-messages="inputs.paperSize.$error">
+				<div ng-message="required">Bạn chưa chọn khổ giấy</div>
+			</div>
+		</md-input-container>
+	</div>
+	<div>
+		<md-button class="md-primary md-raised" type="submit">Submit</md-button>
+		<md-button ui-sref="app.settings.printer">Quay lại danh sách</md-button>
+	</div>
+</form>

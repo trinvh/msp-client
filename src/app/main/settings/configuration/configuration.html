@@ -1,0 +1,100 @@
+<div class="page-layout carded fullwidth single-scroll" layout="row">
+	<div class="top-bg md-accent-bg"></div>
+	<div class="center" flex>
+		<div class="header" layout="row" layout-align="start center">
+			<button class="md-icon-button white-fg pr-25">
+				<md-icon>settings</md-icon>
+			</button>
+			<span class="h2 white-fg">Cấu hình phần mềm</span>
+		</div>
+		<div class="content-card">
+			<form name="inputs" ng-submit="inputs.$valid && vm.submit()" novalidate>
+				<md-tabs md-selected="vm.selectedTab" class="md-default-theme" md-dynamic-height md-border-bottom>
+					<md-tab>
+						<md-tab-label>Cấu hình chung</md-tab-label>
+						<md-tab-body>
+							<div layout-gt-sm="row">
+								<div layout-gt-sm="column" flex class="margin-right-30">
+									<md-input-container class="md-block">
+										<label>Tên cửa hàng</label>
+										<input name="name" ng-model="vm.getSetting('BrandName').value" required>
+										<div ng-messages="inputs.name.$error">
+											<div ng-message="required">Vui lòng nhập tên cửa hàng</div>
+										</div>
+									</md-input-container>
+									<md-input-container class="md-block">
+										<label>Slogan hoặc địa chỉ (dùng khi in hóa đơn)</label>
+										<input name="slogan" ng-model="vm.getSetting('Slogan').value" required>
+										<div ng-messages="inputs.slogan.$error">
+											<div ng-message="required">Vui lòng nhập địa chỉ</div>
+										</div>
+									</md-input-container>
+									<md-input-container class="md-block">
+										<label>Chọn máy in mặc định</label>
+										<md-select name="receiptPrinter" ng-model="vm.getSetting('ReceiptPrinter').value" placeholder="Chọn máy in" required>
+											<md-option ng-value="printer.id" ng-repeat="printer in vm.Printers">{{printer.name}}</md-option>
+										</md-select>
+										<div ng-messages="inputs.receiptPrinter.$error">
+											<div ng-message="required">Bạn chưa chọn máy in hóa đơn mặc định</div>
+										</div>
+									</md-input-container>
+									<md-input-container class="md-block">
+										<md-switch class="md-primary" ng-model="vm.getSetting('PreventBuyIfInventoryEqualsZero').value">
+											Không bán khi hết hàng
+										</md-switch>
+									</md-input-container>
+								</div>
+								<div layout-gt-sm="column" flex>
+									<md-input-container class="md-block">
+										<label>Số điện thoại nhận báo cáo (1000đ/sms)</label>
+										<input name="phone" ng-model="vm.getSetting('ReportToPhone').value" placeholder="+84909xxxxxx hoặc 0909xxxxxx" ng-pattern="vm.phonePattern">
+										<div ng-messages="inputs.phone.$error">
+											<div ng-message="pattern || required">Vui lòng nhập số điện thoại chính xác</div>
+										</div>
+									</md-input-container>
+									<md-input-container class="md-block">
+										<label>Thời gian gửi báo cáo</label>
+										<input type="time" name="reportDailyTime" ng-model="vm.getSetting('ReportDailyTime').value" 
+											placeholder="HH:mm:ss" required />
+										<div ng-messages="inputs.timeToReport.$error">
+											<div ng-message="required">Vui lòng nhập thời gian</div>
+										</div>
+									</md-input-container>
+									<md-input-container class="md-block">
+										<md-switch class="md-primary" ng-model="vm.getSetting('ReportDaily').value">
+											Báo cáo doanh thu qua SMS
+										</md-switch>
+										<md-switch class="md-primary" ng-model="vm.getSetting('ReportWarningHardware').value">
+											Cảnh báo phần cứng qua SMS
+										</md-switch>
+										<md-switch class="md-primary" ng-model="vm.getSetting('DailyBackup').value">
+											Backup data lên server Beesoft
+										</md-switch>
+									</md-input-container>
+								</div>
+							</div>
+						</md-tab-body>
+					</md-tab>
+					<md-tab>
+						<md-tab-label>Tích hợp CSM</md-tab-label>
+						<md-tab-body>
+							<md-input-container class="md-block">
+								<md-switch class="md-primary" ng-model="vm.getSetting('CSMValid').value" ng-change="vm.toggleUseCSM()">
+									Phòng máy đang sử dụng CSM
+								</md-switch>
+							</md-input-container>
+							<md-input-container class="md-block">
+								<md-switch class="md-primary" ng-model="vm.getSetting('ReportCSMDaily').value" ng-disabled="!vm.getSetting('CSMValid').value">
+									Đồng ý gửi SMS báo cáo doanh thu hàng ngày
+								</md-switch>
+							</md-input-container>
+						</md-tab-body>
+					</md-tab>
+				</md-tabs>
+				<div class="p-15">
+					<md-button class="md-primary md-raised" type="submit">Lưu cấu hình</md-button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,90 @@
+<div id="report" class="page-layout simple tabbed" layout="column">
+	<div class="header md-accent-bg" layout="row" layout-align="start center">
+		<div class="white-fg" layout="row" layout-align="start center" flex>
+			<h2>Lịch sử bán hàng</h2>
+		</div>
+		<div layout="column" layout-gt-sm="row">
+
+		</div>
+	</div>
+	<div class="bottom" layout="column" layout-gt-sm="row" layout-align-gt-sm="start center">
+		<form name="form" ng-submit="form.$valid && vm.submit()" layout="column" layout-gt-sm="row" layout-align-gt-sm="start center">
+			<div class="input-boxes md-whiteframe-1dp" layout="column" layout-gt-xs="row" layout-align-gt-xs="center center">
+				<div layout="row" layout-align="center center" class="filter to">
+					<span class="label">Nhân viên:</span>
+					<md-select ng-model="vm.selectedUser" ng-model-options="{trackBy: '$value.userId'}" placeholder="Staff">
+						<md-option ng-repeat="user in vm.users" ng-value="user">
+							{{user.userName}}
+						</md-option>
+					</md-select>
+				</div>
+			</div>
+			<div class="date-filter-box md-whiteframe-1dp" layout="column" layout-gt-xs="row" layout-align-gt-xs="center center">
+				<div layout="row" layout-align="center center" class="filter from">
+					<md-input-container class="md-block" flex-gt-sm>
+						<label>Từ lúc</label>
+						<input name='startTime' ng-model="vm.startTime" moment-date-time required>
+					</md-input-container>
+					<md-button class="md-icon-button md-primary" ng-click="vm.selectDate('from')" aria-label="Open Date Picker">
+						<i class='icon icon-calendar-clock'></i>
+					</md-button>
+				</div>
+				<div layout="row" layout-align="center center" class="filter to">
+					<md-input-container class="md-block" flex-gt-sm>
+						<label>Tới lúc</label>
+						<input name='endTime' ng-model="vm.endTime" moment-date-time moment-date-time required>
+					</md-input-container>
+					<md-button class="md-icon-button md-primary" ng-click="vm.selectDate('to')" aria-label="Open Date Picker">
+						<i class='icon icon-calendar-clock'></i>
+					</md-button>
+				</div>
+			</div>
+			<md-button class="md-raised md-primary" type="submit">Lọc kết quả</md-button>
+		</form>
+		<div flex></div>
+	</div>
+	<div class="content">
+		<md-card>
+			<md-toolbar class="md-table-toolbar md-default">
+				<div class="md-toolbar-tools" ng-hide="vm.filter.show">
+					<h2 class="md-title">Tổng doanh thu: {{vm.totalAmount | number }}</h2>
+					<div flex></div>
+				</div>
+			</md-toolbar>
+			<md-table-container>
+				<table md-table multiple ng-model="vm.selectedRows" md-progress="vm.promise">
+					<thead md-head md-order="vm.filter.query.order" md-on-reorder="vm.getPromise">
+						<tr md-row>
+							<th md-column md-order-by="voucherId"><span>ID</span></th>
+							<th md-column><span>Người dùng</span></th>
+							<th md-column md-order-by="amount" md-numeric>Số tiền</th>
+							<th md-column md-order-by="voucherDate">Ngày</th>
+							<th md-column md-order-by="voucherTime">Giờ</th>
+							<th md-column md-numeric md-order-by="staff.userName">Nhân viên</th>
+							<th md-column md-numeric md-order-by="note">Ghi chú</th>
+						</tr>
+					</thead>
+					<tbody md-body>
+						<tr md-row ng-repeat="item in vm.items">
+							<td md-cell>{{item.voucherId}}</td>
+							<td md-cell>{{vm.getUserName(item)}}</td>
+							<td md-cell>{{item.amount | number}}</td>
+							<td md-cell>{{item.voucherDate | amDateFormat: 'YYYY-MM-DD'}}</td>
+							<td md-cell>{{item.voucherTime}}</td>
+							<td md-cell>{{item.staff.userName}}</td>
+							<td md-cell>{{item.note}}</td>
+						</tr>
+
+					</tbody>
+					<tbody ng-show="!vm.items.length">
+						<tr class="padding-10">
+							<td colspan="10" class="md-warn md-hue-1 padding-10">Không có dữ liệu</td>
+						</tr>
+					</tbody>
+				</table>
+			</md-table-container>
+			<md-table-pagination md-limit="vm.filter.query.limit" md-limit-options="[5, 10, 20, 50, 100]" md-page="vm.filter.query.page"
+				md-total="{{vm.itemsCount}}" md-on-paginate="vm.getPromise" md-page-select></md-table-pagination>
+		</md-card>
+	</div>
+</div>

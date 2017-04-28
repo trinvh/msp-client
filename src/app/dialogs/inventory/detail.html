@@ -1,0 +1,49 @@
+<md-dialog aria-label="Inventory Detail">
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Phiếu cân bằng kho #{{vm.data.id}}</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click="vm.close()">
+				<md-icon aria-label="Close dialog">close</md-icon>
+			</md-button>
+		</div>
+	</md-toolbar>
+	<md-dialog-content class="no-padding">
+		<table class="simple" ms-responsive-table>
+			<thead md-subheader>
+				<tr>
+					<th>Tên</th>
+					<th>SL Cũ</th>
+					<th>SL Mới</th>
+					<th>Chênh lệch</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td></td>
+				</tr>
+			</tfoot>
+			<tbody>
+				<tr ng-repeat="item in vm.data.inventoryItems | orderBy: objectName">
+					<td>{{item.objectName}}</td>
+					<td>{{item.oldQuantity}}</td>
+					<td>{{item.newQuantity}}</td>
+					<td>{{item.diffQuantity}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</md-dialog-content>
+	<md-dialog-actions layout="row" layout-align="start center">
+		<ul layout="row" flex class="no-padding">
+			<li flex layout="column" layout-align="start start">
+				<span flex="40">Người lập phiếu</span>
+				<span>{{vm.data.userName}}</span>
+			</li>
+			<li flex layout="column" layout-align="start start">
+				<span flex="40">Thời gian</span>
+				<span>{{vm.data.createdTime}}</span>
+			</li>
+		</ul>
+		<md-button flex="nogrow" ng-click="vm.close()">Đóng</md-button>
+	</md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,61 @@
+<div flex layout="column">
+	<header class="padding-right-10 padding-top-10" flex="nogrow" layout="row" layout-align="start center">
+		<md-autocomplete md-selected-item="vm.currentTable" md-search-text="vm.searchTableText" md-selected-item-change="vm.selectedTableChange(table)"
+		 md-items="table in vm.queryTableSearch(vm.searchTableText)" md-item-text="table.Name" md-min-length="0" placeholder="Tìm và chọn bàn"
+		 flex>
+			<md-item-template>
+				<span md-highlight-text="vm.searchTableText" md-highlight-flags="^i">{{table.Name}}</span>
+			</md-item-template>
+			<md-not-found>
+				Không có bàn nào tên "{{vm.searchTableText}}".
+			</md-not-found>
+		</md-autocomplete>
+		<md-button class="md-icon-button" ng-click="vm.loadData()">
+			<md-icon>refresh</md-icon>
+		</md-button>
+	</header>
+	<md-tabs class="margin-top-10" flex="nogrow" md-swipe-content="true" md-border-bottom md-autoselect>
+		<!--<md-tab md-active="vm.currentFoundTable === table" md-on-select="vm.selectTable(table)" label="{{table.Name}}" ng-repeat="table in vm.Tables | filter:vm.hasOrderTableFilter"></md-tab>-->
+		<md-tab ng-repeat="table in vm.tableTabs" md-on-select="vm.selectTable(table)" label="{{table.Name}}"></md-tab>
+	</md-tabs>
+	<ul flex="nogrow" class="grid-view">
+		<li class="header" layout="row">
+			<div class="columns">
+				<span>Tên món</span>
+				<span>SL</span>
+				<span>Thành tiền</span>
+				<span></span>
+			</div>
+		</li>
+	</ul>
+	<ul class="grid-view scrollable" ng-show="vm.currentTable.Orders.length" flex ms-scroll>
+		<li ng-repeat="item in vm.currentTable.Orders">
+			<div class="columns">
+				<span>{{item.ProductName}}</span>
+				<span><input type="number" min="1" ng-model="item.Quantity" ng-change="vm.changeOrderItemQty(item, $event)"></span>
+				<span>{{item.Total | number }}</span>
+				<span><md-icon ng-click="vm.removeOrderItem(item)">close</md-icon></span>
+			</div>
+			<div class="note" ng-show="item.Note"><span md-colors="{'color': 'red'}">Ghi chú:</span> {{ item.Note }}</div>
+		</li>
+	</ul>
+	<div flex class="deep-note" ng-show="!vm.currentTable.Orders.length">Chưa có dịch vụ</div>
+	<div class="promotion" flex="nogrow" layout="row" layout-align="end center" flex>
+		<span>Chiết khấu (%)</span>
+		<input type="number" ng-model="vm.discount" value="0" min="0" max="100" ng-keypress="vm.keyPressDiscount($event)" />
+	</div>
+	<div flex="nogrow" layout="row" layout-align="end center" class="sum-box">
+		<span>Tổng tiền</span>
+		<h4 class="total" ng-if="vm.discount <= 0 || !vm.currentTable.Orders.length">{{ vm.getTableTotal(false) | number:0 }}</h4>
+		<h4 class="total" ng-if="vm.discount > 0 && vm.currentTable.Orders.length"><small>{{ vm.getTableTotal(false) | number:0 }}</small> {{ vm.getTableTotal(true) | number:0 }}</h4>
+	</div>
+	<div flex="nogrow" layout="row">
+		<div flex layout-align="start center">
+			<md-button class="md-icon-button" ng-disabled="true" ng-click="vm.openSettings($event)">
+				<md-icon>settings</md-icon>
+			</md-button>
+		</div>
+		<md-button class="md-raised md-primary" ng-click="vm.printToBar()" ng-disabled="!vm.currentTable.Orders.length">In ra bếp</md-button>
+		<!--<md-button class="md-raised md-warn" ng-disabled="!vm.currentTable.Orders.length">Thanh toán</md-button>-->
+	</div>
+</div>

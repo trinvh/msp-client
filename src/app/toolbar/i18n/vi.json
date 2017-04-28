@@ -1,0 +1,13 @@
+{
+    "TOOLBAR": {
+        "TOGGLE_NAVIGATION": "Toggle navigation",
+        "TOGGLE_NAVIGATION_FOLD": "Toggle navigation fold",
+        "TOGGLE_NAVIGATION_MODE": "Toggle navigation mode",
+        "SEARCH": "Tìm kiếm",
+        "USER_SETTINGS": "Cấu hình",
+        "TOGGLE_QUICK_PANEL": "Toggle quick panel",
+        "ENGLISH": "Tiếng Anh",
+        "SPANISH": "Tiếng TBN",
+        "TURKISH": "Tiếng TNK"
+    }
+}

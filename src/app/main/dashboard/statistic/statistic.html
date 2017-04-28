@@ -1,0 +1,132 @@
+<div id="dashboard-ecommerce" class="page-layout blank" layout="row">
+    <div class="center" flex ms-scroll>
+        <div class="content">
+            <div class="widget-group" layout="row" flex="100" layout-wrap>
+                <ms-widget flippable="true" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+                    <ms-widget-front class="white-bg">
+                        <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
+                            <div class="h3">Bán trong ngày</div>
+                            <md-button class="md-icon-button"><md-icon>more_horiz</md-icon></md-button>
+                        </div>
+                        <div class="pt-8 pb-32" layout="column" layout-align="center center">
+                            <div class="green-fg font-size-72 line-height-72">
+                                {{vm.data.weeklySales[0].total / 1000 | number }}K
+                            </div>
+                            <div class="h3 secondary-text font-weight-500">1K = 1000đ</div>
+                        </div>
+                        <div class="p-16 grey-50-bg border-top" layout="row" layout-align="start center">
+                            <span class="h4 secondary-text text-truncate">Hôm nay {{ vm.date | amDateFormat: 'dddd, Do MMMM YYYY' }}</span>
+                        </div>
+                    </ms-widget-front>
+                </ms-widget>
+                <ms-widget flippable="true" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+                    <ms-widget-front class="white-bg">
+                        <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
+                            <div class="h3">Dịch vụ hôm nay</div>
+                            <md-button class="md-icon-button"><md-icon>more_horiz</md-icon></md-button>
+                        </div>
+                        <div class="pt-8 pb-32" layout="column" layout-align="center center">
+                            <div class="red-fg font-size-72 line-height-72">
+                                {{vm.data.todayQuantity | number }}
+                            </div>
+                            <div class="h3 secondary-text font-weight-500">{{ vm.date | amDateFormat:'H' }} giờ</div>
+                        </div>
+                        <div class="p-16 grey-50-bg border-top" layout="row" layout-align="start center">
+                            <div class="secondary-text">
+                                <span> {{vm.date | date:'EEEE'}}</span>
+                                <span> {{vm.date | date:'d'}}</span>
+                                <span>th</span>
+                                <span> {{vm.date | date:'MMMM'}}</span>
+                            </div>
+                        </div>
+                    </ms-widget-front>
+                </ms-widget>
+                <ms-widget flippable="true" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+                    <ms-widget-front class="white-bg">
+                        <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
+                            <div class="h3">Dịch vụ trong tháng</div>
+                            <md-button class="md-icon-button"><md-icon>more_horiz</md-icon></md-button>
+                        </div>
+                        <div class="pt-8 pb-32" layout="column" layout-align="center center">
+                            <div class="orange-fg font-size-72 line-height-72">
+                                {{vm.data.thisMonthQuantity | number }}
+                            </div>
+                            <div class="h3 secondary-text font-weight-500">{{ vm.date | amDateFormat: 'D' }} ngày</div>
+                        </div>
+                        <div class="p-16 grey-50-bg border-top" layout="row" layout-align="start center">
+                            <span class="h4 secondary-text text-truncate">{{ vm.date | amDateFormat: 'MMMM YYYY' }}</span>
+                        </div>
+                    </ms-widget-front>
+                </ms-widget>
+                <ms-widget flippable="true" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+                    <ms-widget-front class="white-bg">
+                        <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
+                            <div class="h3">Đang Online</div>
+                            <md-button class="md-icon-button" ui-sref="app.computer"><md-icon>more_horiz</md-icon></md-button>
+                        </div>
+                        <div class="pt-8 pb-32" layout="column" layout-align="center center">
+                            <div class="blue-grey-fg font-size-72 line-height-72">
+                                {{vm.data.tablesAreOnline | number }}
+                            </div>
+                            <div class="h3 secondary-text font-weight-500">Tổng số {{vm.data.totalTables}} máy</div>
+                        </div>
+                        <div class="p-16 grey-50-bg border-top" layout="row" layout-align="start center">
+                            <span class="h4 secondary-text text-truncate">Online trung bình {{ vm.calcAvgFromMinutes(vm.data.tableOnlineAvg) }}</span>
+                        </div>
+                    </ms-widget-front>
+                </ms-widget>
+            </div>
+            <div class="widget-group" layout="row" flex="100" layout-wrap>
+                <ms-widget layout="row" flex="100" flex-gt-sm="50">
+                    <ms-widget-front class="white-bg">
+                        <div class="ph-16 pv-8 border-bottom" layout="row" layout-align="space-between center" layout-wrap>
+                            <div class="h3">Doanh thu 7 ngày gần đây</div>
+                        </div>
+                        <div class="p-16">
+                            <canvas class="chart chart-bar" chart-data="vm.daysChart.data" chart-labels="vm.daysChart.labels" chart-options="vm.chartOptions"></canvas>
+                        </div>
+                    </ms-widget-front>
+                </ms-widget>
+                <ms-widget layout="row" flex="100" flex-gt-sm="50">
+                    <ms-widget-front class="white-bg">
+                        <div class="ph-16 pv-8 border-bottom" layout="row" layout-align="space-between center" layout-wrap>
+                            <div class="h3">Doanh thu theo tháng</div>
+                        </div>
+                        <div class="p-16">
+                            <canvas class="chart chart-bar" chart-data="vm.monthsChart.data" chart-labels="vm.monthsChart.labels" chart-options="vm.chartOptions"></canvas>
+                        </div>
+                    </ms-widget-front>
+                </ms-widget>
+            </div>
+            <div class="widget-group" layout="row" flex="100" layout-wrap layout-align="start start">
+                <ms-widget flippable="false" layout="column" flex="100" flex-gt-md="65">
+                    <ms-widget-front class="white-bg">
+                        <div class="p-16 md-accent-bg" layout="row" layout-align="space-between center">
+                            <div class="h3">Cập nhật từ Misapay</div>
+                        </div>
+                        <div class="p-16" marked="vm.markdown"></div>
+                    </ms-widget-front>
+                </ms-widget>
+                <ms-widget flippable="false" layout="column" flex="100" flex-gt-md="35">
+                    <ms-widget-front class="white-bg">
+
+                        <div class="p-16 md-accent-bg" layout="row" layout-align="space-between center">
+                            <div class="h3">Log hệ thống</div>
+                            <button ui-sref="app.settings.log">Xem thêm</button>
+                        </div>
+                        <div class="simple-table-container">
+                            <table class="simple" ms-responsive-table>
+                                <tbody>
+                                    <tr ng-repeat="log in vm.data.logs">
+                                        <td class="">{{log.message}}</td>
+                                        <td class="text-right"><md-tooltip>Play Music</md-tooltip><span am-time-ago="log.createdTime"></span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </ms-widget-front>
+                </ms-widget>
+            </div>
+        </div>
+    </div>
+</div>

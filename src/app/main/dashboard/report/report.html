@@ -1,0 +1,180 @@
+<div id="report" class="page-layout simple tabbed" layout="column">
+	<div class="header md-accent-bg" layout="row" layout-align="start center">
+		<div class="white-fg" layout="row" layout-align="start center" flex>
+			<h2>Lịch sử bán hàng</h2>
+		</div>
+		<div layout="column" layout-gt-sm="row">
+
+		</div>
+	</div>
+	<div class="bottom" layout="column" layout-gt-sm="row" layout-align-gt-sm="start center">
+		<form name="form" ng-submit="form.$valid && vm.submit()" layout="column" layout-gt-sm="row" layout-align-gt-sm="start center">
+			<div class="input-boxes md-whiteframe-1dp" layout="column" layout-gt-xs="row" layout-align-gt-xs="center center">
+				<div layout="row" layout-align="center center" class="filter to">
+					<span class="label">Nhân viên:</span>
+					<md-select ng-model="vm.selectedUser" ng-model-options="{trackBy: '$value.id'}" placeholder="Staff">
+						<md-option ng-repeat="user in vm.users" ng-value="user">
+							{{user.userName}}
+						</md-option>
+					</md-select>
+				</div>
+			</div>
+			<div class="date-filter-box md-whiteframe-1dp" layout="column" layout-gt-xs="row" layout-align-gt-xs="center center">
+				<div layout="row" layout-align="center center" class="filter from">
+					<md-input-container class="md-block" flex-gt-sm>
+						<label>Từ lúc</label>
+						<input name='startTime' ng-model="vm.startTime" moment-date-time required>
+					</md-input-container>
+					<md-button class="md-icon-button md-primary" ng-click="vm.selectDate('from')" aria-label="Open Date Picker">
+						<i class='icon icon-calendar-clock'></i>
+					</md-button>
+				</div>
+				<div layout="row" layout-align="center center" class="filter to">
+					<md-input-container class="md-block" flex-gt-sm>
+						<label>Tới lúc</label>
+						<input name='endTime' ng-model="vm.endTime" moment-date-time moment-date-time required>
+					</md-input-container>
+					<md-button class="md-icon-button md-primary" ng-click="vm.selectDate('to')" aria-label="Open Date Picker">
+						<i class='icon icon-calendar-clock'></i>
+					</md-button>
+				</div>
+			</div>
+			<md-button class="md-raised md-primary" type="submit">Lọc kết quả</md-button>
+		</form>
+		<div flex></div>
+	</div>
+	<div class="content" ng-show="vm.items">
+		<div class="widget-group" layout="row" flex="100" layout-wrap>
+            <ms-widget class="h-140" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+                <ms-widget-front class="p-16 light-blue-bg white-fg" layout="row" flex>
+                    <div class="pt-8 pb-8" layout="column" layout-align="center center" flex>
+                        <div class="md-display-1 pb-8">{{vm.amount | number}}</div>
+                        <div class="font-weight-500 secondary-text">Tổng tiền</div>
+                    </div>
+                </ms-widget-front>
+            </ms-widget>
+			<ms-widget class="h-140" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+                <ms-widget-front class="p-16 green-bg white-fg" layout="row" flex>
+                    <div class="pt-8 pb-8" layout="column" layout-align="center center" flex>
+                        <div class="md-display-1 pb-8">{{vm.revenue | number}}</div>
+                        <div class="font-weight-500 secondary-text">Lợi nhuận</div>
+                    </div>
+                </ms-widget-front>
+            </ms-widget>
+			<ms-widget class="h-140" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+                <ms-widget-front class="p-16 blue-grey-bg white-fg" layout="row" flex>
+                    <div class="pt-8 pb-8" layout="column" layout-align="center center" flex>
+                        <div class="md-display-1 pb-8">{{vm.quantity | number}}</div>
+                        <div class="font-weight-500 secondary-text">Số dịch vụ</div>
+                    </div>
+                </ms-widget-front>
+            </ms-widget>
+			<ms-widget class="h-140" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+                <ms-widget-front class="p-16 deep-purple-bg white-fg" layout="row" flex>
+                    <div class="pt-8 pb-8" layout="column" layout-align="center center" flex>
+                        <div class="md-display-1 pb-8">{{vm.itemsCount | number}}</div>
+                        <div class="font-weight-500 secondary-text">Số hóa đơn</div>
+                    </div>
+                </ms-widget-front>
+            </ms-widget>
+         </div>
+		<md-tabs md-selected="0" md-dynamic-height>
+			<md-tab label="Nhật ký bán">
+				<md-card>
+					<div class="md-padding">
+					<md-checkbox ng-model="vm.isExpanded">Mở rộng hóa đơn</md-checkbox>
+					</div>
+					<md-table-container>
+						<table md-table multiple ng-model="vm.selectedRows" md-progress="vm.promise">
+							<thead md-head md-order="vm.filter.query.order" md-on-reorder="vm.getPromise">
+								<tr md-row>
+									<th md-column md-order-by="id"><span>ID</span></th>
+									<th md-column md-order-by="tableName"><span>Bàn</span></th>
+									<th md-column>Mặt hàng</th>
+									<th md-column md-numeric>SL</th>
+									<th md-column md-numeric>Đơn giá</th>
+									<th md-column md-numeric md-order-by="total">Tổng</th>
+									<th md-column md-numeric md-order-by="discount">Chiết khấu</th>
+									<th md-column md-numeric md-order-by="paidTime">Thời gian</th>
+									<th md-column md-numeric>Delay</th>
+									<th md-column md-numeric md-order-by="userName"><span>Nhân viên</span></th>
+								</tr>
+							</thead>
+							<tbody md-body ng-repeat="item in vm.items">
+								<tr md-row ng-class="{'bg-gray': vm.isExpanded}">
+									<td md-cell rowspan="{{item.orderItems.length + 1}}">{{item.id}}</td>
+									<td md-cell colspan="2">{{item.tableName}}</td>
+									<td md-cell style="text-align: right" colspan="3" md-colors="{color:'red'}" ng-if="item.discount > 0">{{item.total | number}}</td>
+									<td md-cell style="text-align: right" colspan="3" ng-if="item.discount <= 0">{{item.total | number}}</td>
+									<td md-cell>{{item.discount | number}} %</td>
+									<td md-cell>{{item.paidTime | amDateFormat:'YYYY-MM-DD HH:mm:ss'}}</td>
+									<td md-cell></td>
+									<td md-cell style="text-transform: uppercase">{{item.userName}}</td>
+								</tr>
+								<tr md-row ng-repeat="orderItem in item.orderItems" ng-show="vm.isExpanded">
+									<td md-cell>{{orderItem.tableName}}</td>
+									<td md-cell>{{orderItem.productName}}</td>
+									<td md-cell style="text-align: right">{{orderItem.quantity}}</td>
+									<td md-cell>{{orderItem.price | number}}</td>
+									<td md-cell>{{orderItem.total | number}}</td>
+									<td md-cell></td>
+									<td md-cell>{{orderItem.createdTime | amDateFormat:'YYYY-MM-DD HH:mm:ss'}}</td>
+									<td md-cell>{{orderItem.delay}} s</td>
+									<td md-cell style="text-transform: uppercase">{{orderItem.caller}}</td>
+								</tr>
+
+							</tbody>
+							<tbody ng-show="!vm.items.length">
+								<tr class="padding-10">
+									<td colspan="10" class="md-warn md-hue-1 padding-10">Không có dữ liệu</td>
+								</tr>
+							</tbody>
+						</table>
+					</md-table-container>
+
+					<md-table-pagination md-limit="vm.filter.query.limit" md-limit-options="[5, 10, 20, 50, 100]" md-page="vm.filter.query.page"
+						md-total="{{vm.itemsCount}}" md-on-paginate="vm.getPromise" md-page-select></md-table-pagination>
+				</md-card>
+			</md-tab>
+			<md-tab label="Nhóm dịch vụ & Nguyên liệu">
+				<div layout="column" layout-gt-sm="row">
+					<md-card flex flex-gt-sm="60">
+						<md-card-title layout="row">
+							<md-card-title-text>
+								<span class="md-headline">Các mặt hàng</span>
+							</md-card-title-text>
+							<div>
+								<md-switch ng-model="vm.productGroup" aria-label="Nhóm sản phẩm và thể loại"></md-switch>
+							</div>
+						</md-card-title>
+						<md-list ng-repeat="category in vm.categories" ng-show="vm.productGroup">
+							<md-subheader ng-class="{'md-accent': category.products.length > 0}">{{category.name}}</md-subheader>
+							<md-list-item class="secondary-button-padding" ng-repeat="product in category.products">
+								<p>{{product.name}}</p>
+								<md-button class="md-secondary">{{ product.quantity }}</md-button>
+								<md-divider></md-divider>
+							</md-list-item>
+						</md-list>
+						<md-list ng-show="!vm.productGroup">
+							<md-list-item class="secondary-button-padding" ng-repeat="product in vm.products">
+								<p>{{product.name}}</p>
+								<md-button class="md-secondary">{{ product.quantity }}</md-button>
+								<md-divider></md-divider>
+							</md-list-item>
+						</md-list>
+					</md-card>
+					<md-card flex>
+						<md-list>
+							<md-subheader>Nguyên liệu</md-subheader>
+							<md-list-item class="secondary-button-padding" ng-repeat="material in vm.materials">
+								<p>{{material.name}}</p>
+								<md-button class="md-secondary">{{ material.quantity }}</md-button>
+								<md-divider></md-divider>
+							</md-list-item>
+						</md-list>
+					</md-card>
+				</div>
+			</md-tab>
+		</md-tabs>
+	</div>
+</div>

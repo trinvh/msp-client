@@ -1,0 +1,45 @@
+<form name="inputs" ng-submit="inputs.$valid && vm.submit()" novalidate>
+	<div layout="row" layout-sm="column">
+		<div layout-gt-sm="column" flex class="margin-right-30">
+			<md-input-container class="md-block" flex-gt-sm>
+				<label>Tên đăng nhập</label>
+				<input name="username" ng-model="vm.form.userName" required style="text-transform: uppercase">
+				<div ng-messages="inputs.username.$error">
+					<div ng-message="required">Vui lòng nhập tên đăng nhập (không phân biệt hoa thường)</div>
+				</div>
+			</md-input-container>
+			<md-input-container class="md-block" flex-gt-sm>
+				<label>Tên đầy đủ</label>
+				<input name="name" ng-model="vm.form.name" required>
+				<div ng-messages="inputs.name.$error">
+					<div ng-message="required">Vui lòng nhập họ tên</div>
+				</div>
+			</md-input-container>
+			<md-input-container class="md-block" flex-gt-sm>
+				<label>Mật khẩu</label>
+				<input type="password" name="password" ng-model="vm.form.password" ng-required="!vm.isEdit">
+				<div ng-messages="inputs.password.$error">
+					<div ng-message="required">Vui lòng nhập mật khẩu</div>
+				</div>
+			</md-input-container>
+			<md-input-container class="md-block">
+				<md-switch class="md-primary" name="isActive" ng-model="vm.form.isActive">
+					Cho phép sử dụng tài khoản
+				</md-switch>
+			</md-input-container>
+		</div>
+		<div layout-gt-sm="column" flex>
+			<md-input-container class="md-block">
+				<div ng-repeat="permission in vm.permissions">
+					<md-checkbox ng-checked="vm.checkPermission(permission)" ng-click="vm.togglePermission(permission)">
+						{{permission}}
+					</md-checkbox>
+				</div>
+			</md-input-container>
+		</div>
+	</div>
+	<div>
+		<md-button class="md-primary md-raised" type="submit">Submit</md-button>
+		<md-button ui-sref="app.user">Quay lại danh sách</md-button>
+	</div>
+</form>

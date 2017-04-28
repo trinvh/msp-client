@@ -1,0 +1,52 @@
+<md-card>
+	<md-toolbar class="md-table-toolbar md-dark">
+		<div class="md-toolbar-tools">
+			<h2 class="md-title">{{vm.Tables.length}} máy đang kết nối</h2>
+			<div flex></div>
+			<md-input-container>
+				<md-select ng-model="vm.interval" ng-change="vm.changeInterval()" aria-label="Refresh interval">
+					<md-option ng-value="value" ng-repeat="(key, value) in vm.intervals">{{ key }}</md-option>
+				</md-select>
+			</md-input-container>
+			<md-button class="md-accent md-primary" ng-click="vm.toggleTimer()">{{ !vm.Timer ? 'Start' : 'Stop' }}</md-button>
+		</div>
+	</md-toolbar>
+	<md-table-container>
+		<table md-table md-order="query.order">
+			<thead md-head md-order="vm.filter.query.order">
+				<tr md-row>
+					<th md-column md-order-by="Name"><span>Tên máy</span></th>
+					<th md-column md-order-by="Hardwares.Mainboard"><span>Mainboard</span></th>
+					<th md-column md-order-by="Hardwares.LanSpeed" md-numeric><span>Ethernet</span></th>
+					<th md-column md-order-by="Hardwares.GPU"><span>GPU</span></th>
+					<th md-column md-order-by="Hardwares.CpuLoad.Value" md-numeric><span>CPU Load</span></th>
+					<th md-column md-order-by="Hardwares.CpuTemperature.Value" md-numeric><span>Nhiệt độ CPU</span></th>
+					<th md-column md-order-by="Hardwares.FanSpeed.Value" md-numeric><span>Tốc độ FAN</span></th>
+					<th md-column md-order-by="Hardwares.GpuTemperature.Value" md-numeric><span>Nhiệt độ VGA</span></th>
+					<th md-column md-order-by="Hardwares.Memory" md-numeric><span>RAM</span></th>
+					<th md-column md-order-by="Hardwares.MemoryLoad.Value" md-numeric><span>RAM Load</span></th>
+				</tr>
+			</thead>
+			<tbody md-body>
+				<tr md-row ng-repeat="item in vm.Tables | orderBy: vm.filter.query.order">
+					<td md-cell>{{item.Name}}</td>
+					<td md-cell>{{item.Hardwares.Mainboard}}</td>
+					<td md-cell>{{item.Hardwares.LanSpeed}}</td>
+					<td md-cell>{{item.Hardwares.GPU}}</td>
+					<td md-cell flash-change="item.Hardwares.CpuLoad.Value">{{item.Hardwares.CpuLoad.Value | number:1}}%</td>
+					<td md-cell flash-change="item.Hardwares.CpuTemperature.Value">{{item.Hardwares.CpuTemperature.Value | number:1}} ⁰C</td>
+					<td md-cell flash-change="item.Hardwares.FanSpeed.Value">{{item.Hardwares.FanSpeed.Value | number:0}} RPM</td>
+					<td md-cell flash-change="item.Hardwares.GpuTemperature.Value">{{item.Hardwares.GpuTemperature.Value | number:1}} ⁰C</td>
+					<td md-cell>{{item.Hardwares.Memory | number}}MB</td>
+					<td md-cell flash-change="item.Hardwares.MemoryLoad.Value">{{item.Hardwares.MemoryLoad.Value | number:0}}%</td>
+				</tr>
+				<tr md-row ng-show="!vm.Tables.length">
+					<td md-cell colspan="10" class="md-warn md-hue-1">Không có dữ liệu, vui lòng tạo mới</td>
+				</tr>
+			</tbody>
+		</table>
+	</md-table-container>
+	<md-card-content>
+		<p>Đặt thời gian refresh tương đối để ít ảnh hưởng đến đường truyền</p>
+	</md-card-content>
+</md-card>

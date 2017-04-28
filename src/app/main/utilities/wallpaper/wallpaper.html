@@ -1,0 +1,56 @@
+<div class="page-layout carded fullwidth single-scroll" layout="row">
+	<div class="top-bg md-accent-bg"></div>
+	<div class="center" flex>
+		<div class="header">
+			<span class="h2 white-fg">Wallpaper</span>
+			<p class="white-fg">Cài đặt hình nền cho các máy con</p>
+		</div>
+		<div layout="column" layout-gt-md="row">
+			<div flex="100" flex-gt-md="25" class="margin-top-80">
+				<md-input-container class="md-block">
+					<h4 class="md-title">Upload ảnh nền mới</h4>
+					<md-divider></md-divider>
+					<div class="margin-top-20" layout="row" flex-gt-sm flow-init="{singleFile:true}" flow-name="vm.flow" flow-file-added="vm.imageChange($file, $event, $flow)">
+						<div class="product-thumbnail">
+							<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" ng-show="!$flow.files.length" />
+							<img flow-img="$flow.files[0]" ng-show="$flow.files.length" />
+						</div>
+						<div layout="column">
+							<md-button class="md-accent md-primary" ng-show="!$flow.files.length" flow-btn>Chọn ảnh</md-button>
+							<md-button class="md-accent md-primary" ng-show="$flow.files.length" flow-btn>Đổi ảnh khác</md-button>
+						</div>
+					</div>
+				</md-input-container>
+				<md-input-container>
+					<md-checkbox ng-model="vm.form.isDefault" required>
+						Sử dụng làm mặc định
+					</md-checkbox>
+				</md-input-container>
+				<div>
+					<md-button class="md-raised md-accent" ng-click="vm.upload()">Upload</md-button>
+				</div>
+			</div>
+			<div flex class="content-card">
+				<md-content layout="column" layout-gt-sm="row" layout-wrap>
+					<md-card flex flex-gt-sm="50" flex-gt-md="33" class="wallpaper-card margin-bottom-20" ng-repeat="item in vm.Items">
+						<img ng-src="{{vm.getImage(item)}}" class="md-card-image">
+						<md-card-title class="no-padding margin-left-10">
+							<md-card-title-text>
+								<span class="md-subhead">Tải lên <span am-time-ago="item.createdTime"><md-tooltip>{{item.createdTime}}</md-tooltip></span></span>
+							</md-card-title-text>
+						</md-card-title>
+						<md-card-actions layout="row" layout-align="start center">
+							<md-button class="md-accent" ng-disabled="item.isDefault" ng-click="vm.toggleDefault(item)">Đặt làm mặc định</md-button>
+							<md-button class="md-warn" ng-show="item.isDefault" ng-click="vm.toggleDefault(item)">Không dùng nữa</md-button>
+							<md-card-icon-actions flex="nogrow">
+								<md-button class="md-icon-button md-warn" ng-click="vm.destroy(item)">
+									<md-icon>close</md-icon>
+								</md-button>
+							</md-card-icon-actions>
+						</md-card-actions>
+					</md-card>
+				</md-content>
+			</div>
+		</div>
+	</div>
+</div>

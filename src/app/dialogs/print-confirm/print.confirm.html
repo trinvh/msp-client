@@ -1,0 +1,15 @@
+<md-dialog>
+	<md-dialog-content>
+		<h2 class="md-title">Bạn thực sự muốn in?</h2>
+		<p>Vui lòng kiểm tra kỹ lại, thao tác in không thể hồi lại</p>
+		<md-input-container class="md-block no-margin">
+				<md-checkbox ng-model="vm.allowReceipt">
+					In hóa đơn (tự check khi bạn đang in cho bàn cà phê)
+				</md-checkbox>
+			</md-input-container>
+	</md-dialog-content>
+	<md-dialog-actions>
+		<md-button ng-click="vm.submit()">Đồng ý In</md-button>
+		<md-button ng-click="vm.cancel()">Hủy bỏ</md-button>
+	</md-dialog-actions>
+</md-dialog>

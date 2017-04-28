@@ -1,0 +1,50 @@
+<div class="page-layout carded fullwidth single-scroll" layout="row">
+	<div class="top-bg md-accent-bg"></div>
+	<div class="center" flex>
+		<div class="header" layout="row" layout-align="start center">
+			<ng-avatar initials="{{vm.FirstCharacterName}}" width="80"></ng-avatar>
+			<span class="h2 white-fg margin-20">Xin chào, {{vm.profile.name}}</span>
+		</div>
+		<div class="content-card">
+			<div class="toolbar" layout="row" layout-align="start center">
+				<span>Nhập các trường yêu cầu được đánh dấu *</span>
+			</div>
+			<md-content class="content" ms-scroll>
+				<form name="inputs" ng-submit="inputs.$valid && vm.submit()" novalidate>
+					<div layout-gt-sm="row">
+						<md-input-container class="md-block margin-right-20" flex-gt-sm="50">
+							<label>Mật khẩu cũ</label>
+							<input type="password" name="oldPassword" ng-model="vm.form.oldPassword" required>
+							<div ng-messages="inputs.oldPassword.$error">
+								<div ng-message="required">Vui lòng nhập mật khẩu cũ</div>
+							</div>
+						</md-input-container>
+						<div flex-gt-sm="50">
+						<md-input-container class="md-block" flex-gt-sm>
+							<label>Nhập mật khẩu mới</label>
+							<input type="password" name="password" ng-model="vm.form.password" required>
+							<div ng-messages="inputs.password.$error">
+								<div ng-message="required">Vui lòng nhập mật khẩu</div>
+							</div>
+						</md-input-container>
+						<md-input-container class="md-block" flex-gt-sm>
+							<label>Xác nhận mật khẩu mới</label>
+							<input type="password" name="password_confirmation"
+								ng-model="vm.form.password_confirmation" 
+								compare-to="vm.form.password"
+								required>
+							<div ng-messages="inputs.password_confirmation.$error">
+								<div ng-message="required">Vui lòng xác nhận mật khẩu</div>
+								<div ng-message="compareTo">Vui lòng nhập chính xác như mật khẩu mới bạn đã nhập</div>
+							</div>
+						</md-input-container>
+						</div>
+					</div>
+					<div>
+						<md-button class="md-primary md-raised" type="submit">Đổi mật khẩu</md-button>
+					</div>
+				</form>
+			</md-content>
+		</div>
+	</div>
+</div>
