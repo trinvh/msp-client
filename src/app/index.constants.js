@@ -4,7 +4,7 @@
     angular
         .module('misapay')
         .constant('CONFIG', (function () {
-            var debugging = false;
+            var debugging = true;
             var host_url = !debugging ? '' : 'http://localhost:5000';
             var api_url = host_url + '/api';
             var signal_url = host_url + '/signalr';

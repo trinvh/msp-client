@@ -40,8 +40,10 @@
 					<th md-column><span>Ảnh</span></th>
 					<th md-column md-order-by="name"><span>Tên đầy đủ</span></th>
 					<th md-column md-numeric md-order-by="price"><span>Giá</span></th>
+					<th md-column md-numeric md-order-by="coffeePrice"><span>Giá cà phê</span></th>
 					<th md-column md-numeric md-order-by="originalPrice"><span>Giá gốc</span></th>
 					<th md-column md-numeric md-order-by="inventory"><span>Trong kho</span></th>
+					<th md-column md-numeric><span>Nhóm</span></th>
 					<th md-column md-order-by="printer.name"><span>Máy in</span></th>
 					<th md-column md-order-by="isActive"><span>Hiển thị</span></th>
 					<th md-column md-numeric></th>
@@ -56,9 +58,11 @@
 						</div>
 					</td>
 					<td md-cell>{{item.name}}</td>
-					<td md-cell>{{item.price | number}}</td>
-					<td md-cell>{{item.originalPrice | number}}</td>
-					<td md-cell>{{item.inventory | number}}</td>
+					<td md-cell ng-click="vm.editInline($event, item, 'price', 'Giá bán')">{{item.price | number}}</td>
+					<td md-cell ng-click="vm.editInline($event, item, 'coffeePrice', 'Giá cafe')">{{item.coffeePrice | number}}</td>
+					<td md-cell ng-click="vm.editInline($event, item, 'originalPrice', 'Giá nhập')">{{item.originalPrice | number}}</td>
+					<td md-cell ng-click="vm.editInline($event, item, 'inventory', 'Tồn kho hiện tại')">{{item.inventory | number}}</td>
+					<td md-cell>{{ vm.formatCategory(item) }}</td>
 					<td md-cell>
 						<md-select ng-model="item.printerId" ng-change="vm.updatePrinter(item)" placeholder="Máy in">
 							<md-option ng-value="printer.id" ng-repeat="printer in vm.Printers">{{printer.name}}</md-option>
